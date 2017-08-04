@@ -15,7 +15,7 @@ public class Department {
     private String departDesc;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "department-meeting",
+    @JoinTable(name = "department_meeting",
                joinColumns = {@JoinColumn(name ="depertmentId")},
                inverseJoinColumns = {@JoinColumn(name = "meetingId")} )
     private Set<Meeting> meeting = new HashSet<Meeting>();
