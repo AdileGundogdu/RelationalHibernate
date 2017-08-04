@@ -6,15 +6,19 @@ import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 @Entity
-@Table
+@Table(catalog = "hiberexample")
 public class Meeting {
     @Id
     @GeneratedValue(strategy =IDENTITY)
     private int meetingId;
     private String meetingName;
     private String meetingDesc;
-    @ManyToMany(mappedBy = "meeting")
-    private Set<Department> department= new HashSet<Department>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "department-meeting",catalog = "hiberexample",
+            joinColumns = {@JoinColumn(name ="depertmentId")},
+            inverseJoinColumns = {@JoinColumn(name = "meetingId")} )
+    private Set<Meeting> meeting = new HashSet<Meeting>();
+
 
     public Meeting() {
     }
@@ -48,11 +52,11 @@ public class Meeting {
         this.meetingDesc = meetingDesc;
     }
 
-    public Set<Department> getDepartment() {
-        return department;
+    public Set<Meeting> getMeeting() {
+        return meeting;
     }
 
-    public void setDepartment(Set<Department> department) {
-        this.department = department;
+    public void setMeeting(Set<Meeting> meeting) {
+        this.meeting = meeting;
     }
 }
