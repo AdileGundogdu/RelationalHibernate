@@ -6,7 +6,7 @@ import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 @Entity
-@Table(catalog = "hiberexample")
+@Table(name = "department")
 public class Department {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -14,15 +14,18 @@ public class Department {
     private String name;
     private String departDesc;
 
-    @ManyToMany(mappedBy = "meeting")
-    private Set<Department> department= new HashSet<Department>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "department-meeting",
+               joinColumns = {@JoinColumn(name ="depertmentId")},
+               inverseJoinColumns = {@JoinColumn(name = "meetingId")} )
+    private Set<Meeting> meeting = new HashSet<Meeting>();
 
-    public Set<Department> getDepartment() {
-        return department;
+    public Set<Meeting> getMeeting() {
+        return meeting;
     }
 
-    public void setDepartment(Set<Department> department) {
-        this.department = department;
+    public void setMeeting(Set<Meeting> meeting) {
+        this.meeting = meeting;
     }
 
     public Department() {

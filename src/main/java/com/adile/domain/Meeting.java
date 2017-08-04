@@ -1,23 +1,23 @@
 package com.adile.domain;
 
+import org.hibernate.mapping.FetchProfile;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 @Entity
-@Table(catalog = "hiberexample")
+@Table(name = "meeting")
 public class Meeting {
     @Id
     @GeneratedValue(strategy =IDENTITY)
     private int meetingId;
     private String meetingName;
     private String meetingDesc;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "department-meeting",catalog = "hiberexample",
-            joinColumns = {@JoinColumn(name ="depertmentId")},
-            inverseJoinColumns = {@JoinColumn(name = "meetingId")} )
-    private Set<Meeting> meeting = new HashSet<Meeting>();
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "meeting")
+    private Set<Department> department = new HashSet<Department>();
 
 
     public Meeting() {
@@ -52,11 +52,11 @@ public class Meeting {
         this.meetingDesc = meetingDesc;
     }
 
-    public Set<Meeting> getMeeting() {
-        return meeting;
+    public Set<Department> getDepartment() {
+        return department;
     }
 
-    public void setMeeting(Set<Meeting> meeting) {
-        this.meeting = meeting;
+    public void setDepartment(Set<Department> department) {
+        this.department = department;
     }
 }
